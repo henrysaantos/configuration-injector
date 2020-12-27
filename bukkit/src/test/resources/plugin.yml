@@ -1,0 +1,3 @@
+name: configuration-injector
+version: 1.0.0
+main: com.henryfabio.minecraft.configinjector.bukkit.Main

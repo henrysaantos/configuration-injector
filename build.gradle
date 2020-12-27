@@ -1,0 +1,34 @@
+plugins {
+    id("java")
+    id("com.github.johnrengelman.shadow") version("6.1.0")
+}
+
+group "com.henryfabio.minecraft"
+version "1.0.0-SNAPSHOT"
+
+subprojects { subProject ->
+
+    plugins.apply("java")
+    plugins.apply("com.github.johnrengelman.shadow")
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        def lombok = "org.projectlombok:lombok:1.18.16"
+        compileOnly(lombok)
+        annotationProcessor(lombok)
+        testCompileOnly(lombok)
+        testAnnotationProcessor(lombok)
+    }
+
+    tasks {
+        shadowJar {
+            archiveFileName = "${rootProject.name}-${subProject.name}-${rootProject.version}.jar"
+        }
+    }
+
+    tasks.build.dependsOn project.tasks.getByName('shadowJar')
+
+}
