@@ -1,0 +1,15 @@
+group "${rootProject.group}"
+version "${rootProject.version}"
+
+repositories {
+    mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
+dependencies {
+    compileOnly("net.md-5:bungeecord-api:1.16-R0.3")
+}
+
+shadowJar {
+    from sourceSets.test.output
+}

@@ -1,4 +1,5 @@
 rootProject.name = 'configuration-injector'
 include 'common'
 include 'bukkit'
+include 'bungee'
 
