@@ -16,8 +16,8 @@ public abstract class ConfigurationLoader {
 
     private final Map<String, Configuration> configurations = new LinkedHashMap<>();
 
-    public Configuration computeConfigurationIfAbsent(String name, Supplier<Configuration> supplier) {
-        return configurations.computeIfAbsent(name, k -> supplier.get());
+    public Configuration computeConfigurationIfAbsent(String path, Supplier<Configuration> supplier) {
+        return configurations.computeIfAbsent(path, k -> supplier.get());
     }
 
     public abstract Configuration loadConfiguration(File dataFolder, String path);
