@@ -60,7 +60,6 @@ public abstract class ConfigurationInjector {
         }
 
         Object configurationValue = configuration.get(configurationField.getFieldAnnotation().value());
-        System.out.println(configurationValue);
 
         TranslateColors translateColors = configurationField.getTranslateColors();
         if (translateColors != null) {
