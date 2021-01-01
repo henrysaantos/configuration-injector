@@ -1,2 +1,7 @@
-group "${rootProject.group}"
-version "${rootProject.version}"
+repositories {
+    mavenCentral()
+}
+
+shadowJar {
+    from sourceSets.test.output
+}

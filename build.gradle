@@ -5,7 +5,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version("6.1.0")
 }
 
-group "com.henryfabio.minecraft.configinjector"
+group "com.henryfabio.minecraft"
 version "1.0.0"
 
 subprojects { subProject ->
