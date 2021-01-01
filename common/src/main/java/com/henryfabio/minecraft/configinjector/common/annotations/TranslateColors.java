@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * @author Henry Fábio
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD, ElementType.TYPE})
 public @interface TranslateColors {
 
     boolean value() default true;
