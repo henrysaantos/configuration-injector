@@ -33,11 +33,13 @@ public abstract class ConfigurationInjector {
             throw new UnsupportedOperationException("The class must be annotated with ConfigValue");
         }
 
+        TranslateColors fileTranslateColors = injectableClass.getAnnotation(TranslateColors.class);
+
         Configuration configuration = configurationLoader.loadConfiguration(dataFolder, configFile.value());
         for (ConfigurationField configurationField : getConfigurationFields(injectable)) {
             configurationField.accessible();
 
-            Object configurationValue = getConfigurationValue(configuration, configurationField);
+            Object configurationValue = getConfigurationValue(configuration, configurationField, fileTranslateColors);
             injectValue(injectable, configurationField, configurationValue);
         }
 
@@ -53,7 +55,9 @@ public abstract class ConfigurationInjector {
         }
     }
 
-    private Object getConfigurationValue(Configuration configuration, ConfigurationField configurationField) {
+    private Object getConfigurationValue(Configuration configuration,
+                                         ConfigurationField configurationField,
+                                         TranslateColors fileTranslateColors) {
         String fieldConfigurationPath = configurationField.getConfigurationPath();
         if (fieldConfigurationPath != null) {
             configuration = configurationLoader.loadConfiguration(dataFolder, fieldConfigurationPath);
@@ -62,7 +66,9 @@ public abstract class ConfigurationInjector {
         Object configurationValue = configuration.get(configurationField.getFieldAnnotation().value());
 
         TranslateColors translateColors = configurationField.getTranslateColors();
-        if (translateColors != null) {
+        if (translateColors == null) translateColors = fileTranslateColors;
+
+        if (translateColors != null && translateColors.value()) {
             configurationValue = translateValueColors(translateColors, configurationValue);
         }
 

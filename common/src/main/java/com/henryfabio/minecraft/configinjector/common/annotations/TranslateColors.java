@@ -12,6 +12,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface TranslateColors {
 
+    boolean value() default true;
+
     char colorChar() default '&';
 
 }
