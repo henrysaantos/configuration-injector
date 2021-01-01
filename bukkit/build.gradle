@@ -11,7 +11,9 @@ dependencies {
     def spigot = "org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"
     compileOnly(spigot)
     testCompileOnly(spigot)
+
     implementation(project(":common"))
+    api(project(":common"))
 }
 
 shadowJar {

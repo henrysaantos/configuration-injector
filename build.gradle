@@ -1,5 +1,7 @@
 plugins {
     id("java")
+    id("java-library")
+    id("maven")
     id("com.github.johnrengelman.shadow") version("6.1.0")
 }
 
@@ -9,6 +11,8 @@ version "1.0.0"
 subprojects { subProject ->
 
     plugins.apply("java")
+    plugins.apply("java-library")
+    plugins.apply("maven")
     plugins.apply("com.github.johnrengelman.shadow")
 
     repositories {
