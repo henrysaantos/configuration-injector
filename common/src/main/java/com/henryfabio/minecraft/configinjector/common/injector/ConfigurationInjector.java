@@ -46,6 +46,13 @@ public abstract class ConfigurationInjector {
         return injectable;
     }
 
+    @SafeVarargs
+    public final <T extends ConfigurationInjectable> void injectConfiguration(T... injectables) {
+        for (T injectable : injectables) {
+            injectConfiguration(injectable);
+        }
+    }
+
     private void injectValue(ConfigurationInjectable injectable, ConfigurationField configurationField, Object value) {
         try {
             Field holder = configurationField.getHolder();
