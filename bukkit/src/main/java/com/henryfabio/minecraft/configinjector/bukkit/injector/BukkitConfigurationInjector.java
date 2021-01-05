@@ -18,6 +18,12 @@ public final class BukkitConfigurationInjector extends ConfigurationInjector {
         plugin.saveResource(path, false);
     }
 
+    public void saveDefaultConfiguration(Plugin plugin, String... paths) {
+        for (String path : paths) {
+            saveDefaultConfiguration(plugin, path);
+        }
+    }
+
     @Override
     protected String translateColors(char symbol, String message) {
         return ChatColor.translateAlternateColorCodes(symbol, message);
