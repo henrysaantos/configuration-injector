@@ -1,10 +1,12 @@
 package com.henryfabio.minecraft.configinjector.common.injector;
 
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigFile;
+import com.henryfabio.minecraft.configinjector.common.annotations.ConfigSection;
 import com.henryfabio.minecraft.configinjector.common.annotations.TranslateColors;
 import com.henryfabio.minecraft.configinjector.common.configuration.Configuration;
 import com.henryfabio.minecraft.configinjector.common.loader.ConfigurationLoader;
 import com.henryfabio.minecraft.configinjector.common.model.ConfigurationField;
+import com.henryfabio.minecraft.configinjector.common.model.ConfigurationFile;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,6 +14,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,20 +29,18 @@ public abstract class ConfigurationInjector {
     private final File dataFolder;
 
     public <T extends ConfigurationInjectable> T injectConfiguration(T injectable) {
-        Class<?> injectableClass = injectable.getClass();
+        ConfigurationFile configurationFile = new ConfigurationFile(injectable);
 
-        ConfigFile configFile = injectableClass.getAnnotation(ConfigFile.class);
-        if (configFile == null) {
-            throw new UnsupportedOperationException("The class must be annotated with ConfigValue");
+        ConfigFile fileAnnotation = configurationFile.getFileAnnotation();
+        if (fileAnnotation == null) {
+            throw new UnsupportedOperationException("The class must be annotated with ConfigFile");
         }
 
-        TranslateColors fileTranslateColors = injectableClass.getAnnotation(TranslateColors.class);
-
-        Configuration configuration = configurationLoader.loadConfiguration(dataFolder, configFile.value());
+        Configuration configuration = configurationLoader.loadConfiguration(dataFolder, fileAnnotation.value());
         for (ConfigurationField configurationField : getConfigurationFields(injectable)) {
             configurationField.accessible();
 
-            Object configurationValue = getConfigurationValue(configuration, configurationField, fileTranslateColors);
+            Object configurationValue = getConfigurationValue(configuration, configurationField, configurationFile);
             injectValue(injectable, configurationField, configurationValue);
         }
 
@@ -64,16 +65,23 @@ public abstract class ConfigurationInjector {
 
     private Object getConfigurationValue(Configuration configuration,
                                          ConfigurationField configurationField,
-                                         TranslateColors fileTranslateColors) {
+                                         ConfigurationFile configurationFile) {
         String fieldConfigurationPath = configurationField.getConfigurationPath();
         if (fieldConfigurationPath != null) {
             configuration = configurationLoader.loadConfiguration(dataFolder, fieldConfigurationPath);
         }
 
-        Object configurationValue = configuration.get(configurationField.getFieldAnnotation().value());
+        ConfigSection sectionAnnotation = Optional.ofNullable(configurationField.getSectionAnnotation())
+                .orElse(configurationFile.getSectionAnnotation());
+        TranslateColors translateColors = Optional.ofNullable(configurationField.getTranslateColors())
+                .orElse(configurationFile.getTranslateColors());
 
-        TranslateColors translateColors = configurationField.getTranslateColors();
-        if (translateColors == null) translateColors = fileTranslateColors;
+        String extraSection = Optional.ofNullable(sectionAnnotation)
+                .filter(annotation -> !annotation.value().isEmpty())
+                .map(annotation -> annotation.value() + ".")
+                .orElse("");
+
+        Object configurationValue = configuration.get(extraSection + configurationField.getFieldAnnotation().value());
 
         if (translateColors != null && translateColors.value()) {
             configurationValue = translateValueColors(translateColors, configurationValue);

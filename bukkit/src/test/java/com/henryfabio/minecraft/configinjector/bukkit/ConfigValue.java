@@ -2,6 +2,7 @@ package com.henryfabio.minecraft.configinjector.bukkit;
 
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigField;
 import com.henryfabio.minecraft.configinjector.common.annotations.ConfigFile;
+import com.henryfabio.minecraft.configinjector.common.annotations.ConfigSection;
 import com.henryfabio.minecraft.configinjector.common.annotations.TranslateColors;
 import com.henryfabio.minecraft.configinjector.common.injector.ConfigurationInjectable;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.function.Function;
  * @author Henry Fábio
  */
 @Getter @Accessors(fluent = true)
+@ConfigSection("mainSection")
 @ConfigFile("config.yml")
 public final class ConfigValue implements ConfigurationInjectable {
 
@@ -26,6 +28,8 @@ public final class ConfigValue implements ConfigurationInjectable {
     @ConfigField("testValueSection1.testValue4") private String testValue4;
     @ConfigField("testValueSection1") private ConfigurationSection testValueSection1;
     @ConfigField("testList") @TranslateColors private List<String> testList;
+
+    @ConfigSection("") @ConfigField("withoutSection") @TranslateColors private String withoutSection;
 
     public static <T> T get(Function<ConfigValue, T> function) {
         return function.apply(instance);

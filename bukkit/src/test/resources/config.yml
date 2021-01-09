@@ -1,8 +1,10 @@
-testValue: "&b&lola"
-testValue2: 1000
-testValue3: true
-testValueSection1:
-  testValue4: "&atamo aqui piak kkkk"
-testList:
-  - "&aoi"
-  - "funcionokkkk"
+mainSection:
+  testValue: "&b&lola"
+  testValue2: 1000
+  testValue3: true
+  testValueSection1:
+    testValue4: "&atamo aqui piak kkkk"
+  testList:
+    - "&aoi"
+    - "funcionokkkk"
+withoutSection: "puta que pariu tamo fora rapaiz"

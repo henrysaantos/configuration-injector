@@ -20,6 +20,7 @@ public class Main extends JavaPlugin {
         System.out.println("testValue4: '" + ConfigValue.get(ConfigValue::testValue4) + "'");
         System.out.println("testSection1: '" + ConfigValue.get(ConfigValue::testValueSection1) + "'");
         System.out.println("testList: '" + ConfigValue.get(ConfigValue::testList) + "'");
+        System.out.println("withoutSection: '" + ConfigValue.get(ConfigValue::withoutSection) + "'");
     }
 
 }
