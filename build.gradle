@@ -20,7 +20,7 @@ subprojects { subProject ->
     }
 
     dependencies {
-        def lombok = "org.projectlombok:lombok:1.18.16"
+        def lombok = "org.projectlombok:lombok:1.18.20"
         compileOnly(lombok)
         annotationProcessor(lombok)
         testCompileOnly(lombok)
