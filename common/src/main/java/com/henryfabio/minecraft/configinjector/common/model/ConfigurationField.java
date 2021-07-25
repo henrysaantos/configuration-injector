@@ -41,8 +41,7 @@ public final class ConfigurationField {
             modifiersField.setAccessible(true);
 
             modifiersField.setInt(holder, holder.getModifiers() & ~Modifier.PRIVATE);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (NoSuchFieldException | IllegalAccessException ignore) {
         }
     }
 
